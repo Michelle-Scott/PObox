@@ -44,7 +44,7 @@ function Bookmarks(props) {
       <SidePanelInfo
         visible={visible}
         setVisible={setVisible}
-        type={"file"}
+        type={"bookmark"}
         data={bookmark}
       >
         <AddBookmarkModal
@@ -95,9 +95,14 @@ function Bookmarks(props) {
                   <Card.Meta>{shortenText(mark.description, 100)}</Card.Meta>
                 </Card.Content>
                 <Card.Content extra style={{ fontSize: "1.1rem" }}>
-                  <a style={{ color: "dodgerblue" }} href={mark.url}>
+                  <p
+                    onClick={() => {
+                      openLink(mark.url);
+                    }}
+                    style={{ cursor: "pointer", color: "dodgerblue" }}
+                  >
                     {mark.url}{" "}
-                  </a>
+                  </p>
                 </Card.Content>
               </Card>
             ))}

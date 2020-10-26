@@ -101,7 +101,7 @@ function Files(props) {
                   }}
                 >
                   {iconOptions[
-                    file.name.slice(file.name.lastIndexOf(".") + 1)
+                    file.file_path.slice(file.file_path.lastIndexOf(".") + 1)
                   ] == "file image outline" ? (
                     <Image src={file.file_path} />
                   ) : (
@@ -110,7 +110,9 @@ function Files(props) {
                       color="grey"
                       name={
                         iconOptions[
-                          file.name.slice(file.name.lastIndexOf(".") + 1)
+                          file.file_path.slice(
+                            file.file_path.lastIndexOf(".") + 1
+                          )
                         ] || "file"
                       }
                     />

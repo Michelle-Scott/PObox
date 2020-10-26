@@ -9,26 +9,26 @@ import { reducer } from "./Reducers";
 import { createStore, applyMiddleware, compose } from "redux";
 import { HashRouter as Router } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
-const createLogActionStackTraceMiddleware = (actionTypes = []) => {
-  const logActionStackTraceMiddleware = storeAPI => next => action => {
-    if (action.type && actionTypes.includes(action.type)) {
-      console.trace(`Action: ${action.type}`);
-    }
+// const createLogActionStackTraceMiddleware = (actionTypes = []) => {
+//   const logActionStackTraceMiddleware = storeAPI => next => action => {
+//     if (action.type && actionTypes.includes(action.type)) {
+//       console.trace(`Action: ${action.type}`);
+//     }
 
-    return next(action);
-  };
+//     return next(action);
+//   };
 
-  return logActionStackTraceMiddleware;
-};
-const stackTraceMiddleware = createLogActionStackTraceMiddleware([
-  "GETALLBOOKMARKSNOPID",
-  "CURRENTPROJ"
-]);
+//   return logActionStackTraceMiddleware;
+// };
+// const stackTraceMiddleware = createLogActionStackTraceMiddleware([
+//   "GETALLBOOKMARKSNOPID",
+//   "CURRENTPROJ"
+// ]);
 
 const store = createStore(
   reducer,
   compose(
-    applyMiddleware(thunk, stackTraceMiddleware),
+    applyMiddleware(thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
       : f => f

@@ -19,7 +19,10 @@ const { bookmarksAPI } = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"));
 const { filesAPI } = require(path.join(__dirname, "./ipcAPI/filesAPI"));
 const { snippetsAPI } = require(path.join(__dirname, "./ipcAPI/snippetAPI"));
 const sysos = os.platform();
-
+const {
+  default: installExtension,
+  REDUX_DEVTOOLS
+} = require("electron-devtools-installer");
 //create db and run migrations
 const db = require("./data/db");
 if (!fs.existsSync(path.resolve(app.getPath("userData"), "projects.db3"))) {
@@ -30,7 +33,8 @@ if (!fs.existsSync(path.resolve(app.getPath("userData"), "projects.db3"))) {
 
 //openBrowser Link
 ipc.on("openLink", (event, arg) => {
-  shell.openItem(arg);
+  console.log(arg);
+  shell.openPath(arg);
 });
 
 //select dir of project with dialog
@@ -152,4 +156,9 @@ app.on("activate", () => {
   if (appTray === null) {
     createWindow();
   }
+});
+app.whenReady().then(() => {
+  installExtension(REDUX_DEVTOOLS)
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log("An error occurred: ", err));
 });

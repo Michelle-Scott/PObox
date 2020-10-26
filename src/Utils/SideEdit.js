@@ -24,7 +24,7 @@ function SideEdit(props) {
     setObjDataState(objData);
   }, [props.data]);
 
-  const [objDataState, setObjDataState] = useState(objData);
+  const [objDataState, setObjDataState] = useState();
   const [addProjectsArr, setAddProjectsArr] = useState([]);
   const addProjects = (e, data) => {
     setAddProjectsArr(data.value);
@@ -47,7 +47,7 @@ function SideEdit(props) {
   }
   return (
     <>
-      {editObj && props.data && (
+      {objDataState && (
         <Form size="small">
           {objDataState.map((data, i) => (
             <Form.Field

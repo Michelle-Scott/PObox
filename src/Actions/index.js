@@ -187,11 +187,13 @@ export function launchAppInDir(app, path) {
 }
 
 export function openUrl(url) {
+  console.log(url);
   return dispatch => {
     ipc.send("openLink", url);
   };
 }
 export function getLinkedProjects(id, type) {
+  console.log(type);
   if (type === "file") {
     ipc.send("filesLinkedProjects", id);
     return dispatch => {
@@ -201,6 +203,15 @@ export function getLinkedProjects(id, type) {
     };
   }
   if (type === "command") {
+    console.log(id);
+    ipc.send("commandsLinkedProjects", id);
+    return dispatch => {
+      ipc.on("commandLinkedProjs", function(event, arg) {
+        dispatch({ type: RESOURCELINKEDPROJS, payload: arg });
+      });
+    };
+  }
+  if (type === "bookmark") {
     console.log(id);
     ipc.send("commandsLinkedProjects", id);
     return dispatch => {

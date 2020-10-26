@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { openUrl } from "../Actions/index";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
 import {
   Header,
   Image,
@@ -13,6 +17,9 @@ import SideEdit from "./SideEdit";
 import SideInfo from "./SideInfo";
 
 function SidePanelInfo(props) {
+  const openLink = url => {
+    props.openUrl(url);
+  };
   const [activeItem, setActiveItem] = useState("Info");
   const [view, setView] = useState("Info");
   const handleActive = (e, { tag }) => {
@@ -27,7 +34,13 @@ function SidePanelInfo(props) {
         setView(<SideInfo data={props.data} type={props.type} />);
         break;
       case "Launch":
-        setView(<Header>Launch</Header>);
+        if (props.type === "file") {
+          openLink(props.data.file_path);
+        }
+        if (props.type === "bookmark") {
+          openLink(props.data.url);
+        }
+        setActiveItem("Info");
         break;
       default:
     }
@@ -53,7 +66,10 @@ function SidePanelInfo(props) {
           <Segment.Group style={{ margin: 0, padding: "5px 15px 0" }}>
             <Menu pointing>
               <Menu.Item
-                style={{ width: "calc(100% / 3)" }}
+                style={{
+                  width:
+                    props.type != "command" ? "calc(100% / 3)" : "calc(100%/2)"
+                }}
                 as="a"
                 name="Info"
                 active={activeItem === "Info"}
@@ -63,7 +79,10 @@ function SidePanelInfo(props) {
                 Info
               </Menu.Item>
               <Menu.Item
-                style={{ width: "calc(100% / 3)" }}
+                style={{
+                  width:
+                    props.type != "command" ? "calc(100% / 3)" : "calc(100%/2)"
+                }}
                 as="a"
                 name="Edit"
                 active={activeItem === "Edit"}
@@ -72,16 +91,18 @@ function SidePanelInfo(props) {
               >
                 Edit
               </Menu.Item>
-              <Menu.Item
-                style={{ width: "calc(100% / 3)" }}
-                as="a"
-                name="Launch"
-                active={activeItem === "Launch"}
-                onClick={handleActive}
-                tag="Launch"
-              >
-                Launch
-              </Menu.Item>
+              {props.type != "command" && (
+                <Menu.Item
+                  style={{ width: "calc(100% / 3)" }}
+                  as="a"
+                  name="Launch"
+                  active={activeItem === "Launch"}
+                  onClick={handleActive}
+                  tag="Launch"
+                >
+                  Launch
+                </Menu.Item>
+              )}
             </Menu>
             <Segment style={{ borderTop: "none", padding: "10px 0" }}>
               {view}
@@ -94,5 +115,8 @@ function SidePanelInfo(props) {
     </Sidebar.Pushable>
   );
 }
+const mapDispatchToProps = {
+  openUrl: openUrl
+};
 
-export default SidePanelInfo;
+export default connect(null, mapDispatchToProps)(SidePanelInfo);

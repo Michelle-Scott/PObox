@@ -114,6 +114,7 @@ const ProjectBookmarks = props => {
               <>
                 <List.Item
                   onClick={() => {
+                    console.log(mark.url);
                     openLink(mark.url);
                   }}
                   key={mark.id}

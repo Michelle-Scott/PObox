@@ -84,7 +84,8 @@ function ProjectFiles(props) {
             <>
               <List.Item
                 onClick={() => {
-                  openLink(file.url);
+                  console.log(file.file_path);
+                  openLink(file.file_path);
                 }}
                 key={file.id}
                 style={{ fontSize: "1.1rem", padding: 0 }}
